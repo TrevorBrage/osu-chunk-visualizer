@@ -94,14 +94,7 @@ const render = () => {
   for (const obj of objects) {
     // Show obj if within time bounds
     if (timeElapsed >= obj.time - obj.preempt_start) {
-      let newOpacity: number = 0;
-
-      if (timeElapsed < obj.time && timeElapsed > obj.preempt_start)
-        newOpacity = Math.max(Math.min(lerp(timeElapsed, obj.time - obj.preempt_start, obj.time - obj.fade_in_end, 0, 0.8), 0.8), 0);
-      else if (timeElapsed >= obj.fade_in_end)
-        newOpacity = 0.8;
-
-      console.log(newOpacity);
+      const newOpacity = Math.max(Math.min(lerp(timeElapsed, obj.time - obj.preempt_start, obj.time - obj.fade_in_end, 0, 0.8), 0.8), 0);
 
       obj.setOpacity(newOpacity);
     }
