@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Stats from 'stats.js';
 
 const timeStart = Date.now(); 
 const ar = 9;
@@ -77,18 +78,22 @@ renderer.setClearColor("#000000");
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+const stats = new Stats();
+stats.showPanel(1);
+document.body.appendChild(stats.dom);
+
 const objects: HitObject[] = [];
 
 for (let i = 0; i < 100; i++) {
   // Create objects
-  const object = new HitObject((i*200)+1000, {x: genRandNum(-2, 2), y: genRandNum(-2, 2)});
+  const object = new HitObject((i*100)+1000, {x: genRandNum(-2, 2), y: genRandNum(-2, 2)});
   objects.push(object);
   scene.add(object.getObject());
 }
 
 
 const render = () => {
-  requestAnimationFrame(render);
+  stats.begin();
   const timeElapsed = Date.now() - timeStart;
 
   for (const obj of objects) {
@@ -105,8 +110,9 @@ const render = () => {
       obj.delete();
     }
   }
-  
   renderer.render(scene, camera);
+  stats.end();
+  requestAnimationFrame(render);
 };
 
 render();
