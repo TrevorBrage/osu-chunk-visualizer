@@ -10,7 +10,7 @@ class HitObject {
 
   constructor(time: number, coords: Coords) {
     this.geometry = new THREE.CircleGeometry(1, 64);
-    this.material = new THREE.MeshBasicMaterial({ color: "#433F81" });
+    this.material = new THREE.MeshBasicMaterial({ color: "#433F81", opacity: 0.5 });
     this.object = new THREE.Mesh(this.geometry, this.material);
     this.object.position.set(coords.x, coords.y, 0);
     this.time = time;
@@ -38,9 +38,9 @@ function genRandNum(x: number, y: number) {
 const scene = new THREE.Scene();
 
 // Create a basic perspective camera
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 camera.position.z = 4;
-const renderer = new THREE.WebGLRenderer({antialias:true});
+const renderer = new THREE.WebGLRenderer({ antialias:true });
 renderer.setClearColor("#000000");
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -49,21 +49,21 @@ const objects: HitObject[] = [];
 
 for (let i = 0; i < 10; i++) {
   // Create objects
-  const object = new HitObject(i*20, {x: genRandNum(-1, 1), y: genRandNum(-1, 1)});
+  const object = new HitObject(i*20, {x: genRandNum(-2, 2), y: genRandNum(-2, 2)});
   objects.push(object);
 }
 
-
-// Render objects
-for (const obj of objects)
-  scene.add(obj.getObject());
 
 const render = () => {
   requestAnimationFrame(render);
   ++time;
 
-  // Remove and delete if time > object's local time
   for (const obj of objects) {
+    if (time > obj.time - 10) {
+      scene.add(obj.getObject());
+    }
+
+    // Remove and delete if time > object's local time
     if (time > obj.time + 100) {
       scene.remove(obj.getObject());
       obj.delete();
