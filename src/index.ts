@@ -12,6 +12,7 @@ class HitObject {
     this.geometry = new THREE.CircleGeometry(1, 64);
     this.material = new THREE.MeshBasicMaterial({ color: "#433F81" });
     this.object = new THREE.Mesh(this.geometry, this.material);
+    this.object.position.set(coords.x, coords.y, 0);
     this.time = time;
   }
 
@@ -29,6 +30,10 @@ class HitObject {
   }
 }
 
+function genRandNum(x: number, y: number) {
+  return Math.random() * (y - x) + x;
+}
+
 // Create an empty scene
 const scene = new THREE.Scene();
 
@@ -42,9 +47,11 @@ document.body.appendChild(renderer.domElement);
 
 const objects: HitObject[] = [];
 
-// Create objects
-const object = new HitObject(0, {x: 0, y: 0});
-objects.push(object);
+for (let i = 0; i < 10; i++) {
+  // Create objects
+  const object = new HitObject(i*20, {x: genRandNum(-1, 1), y: genRandNum(-1, 1)});
+  objects.push(object);
+}
 
 
 // Render objects
