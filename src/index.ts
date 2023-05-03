@@ -10,7 +10,7 @@ class HitObject {
 
   constructor(time: number, coords: Coords) {
     this.geometry = new THREE.CircleGeometry(1, 64);
-    this.material = new THREE.MeshBasicMaterial({ color: "#433F81", opacity: 0.5 });
+    this.material = new THREE.MeshBasicMaterial({color: "#433F81", opacity: 0.8, transparent: true});
     this.object = new THREE.Mesh(this.geometry, this.material);
     this.object.position.set(coords.x, coords.y, 0);
     this.time = time;
@@ -40,7 +40,7 @@ const scene = new THREE.Scene();
 // Create a basic perspective camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 camera.position.z = 4;
-const renderer = new THREE.WebGLRenderer({ antialias:true });
+const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setClearColor("#000000");
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
