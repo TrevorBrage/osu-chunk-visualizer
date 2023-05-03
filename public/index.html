@@ -10,12 +10,21 @@
         padding: 0;
       }
       #scene-container {
+        display: flex;
+        justify-content: center;
         width: 100vw;
         height: 100vh;
       }
+      #scrub {
+        position: absolute;
+        bottom: 1em;
+        width: 95%;
+      }
     </style>
     <body>
-      <div id="scene-container"></div>
+      <div id="scene-container">
+      <input id="scrub" type="range" id="scr" name="scr" min="0" max="100">
+      </div>
       <script src="../dist/main.js"></script>
     </body>
 </html>

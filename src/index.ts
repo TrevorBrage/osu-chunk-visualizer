@@ -40,7 +40,7 @@ class HitObject {
   time: number;
 
   constructor(time: number, coords: Coords) {
-    this.geometry = new THREE.CircleGeometry(1, 64);
+    this.geometry = new THREE.CircleGeometry(0.4, 64);
     this.material = new THREE.MeshBasicMaterial({color: "#433F81", opacity: 0, transparent: true});
     this.object = new THREE.Mesh(this.geometry, this.material);
     this.object.position.set(coords.x, coords.y, 0);
