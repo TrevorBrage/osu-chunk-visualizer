@@ -1,14 +1,18 @@
 import * as THREE from 'three';
 
+let time = 0; 
+
 class HitObject {
   geometry: THREE.CircleGeometry;
   material: THREE.MeshBasicMaterial;
   object: THREE.Mesh;
+  time: number;
 
   constructor(time: number, coords: Coords) {
     this.geometry = new THREE.CircleGeometry(1, 64);
     this.material = new THREE.MeshBasicMaterial({ color: "#433F81" });
     this.object = new THREE.Mesh(this.geometry, this.material);
+    this.time = time;
   }
 
   updateTime(time: number) {
@@ -34,14 +38,32 @@ camera.position.z = 4;
 const renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setClearColor("#000000");
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement );
+document.body.appendChild(renderer.domElement);
 
+const objects: HitObject[] = [];
+
+// Create objects
 const object = new HitObject(0, {x: 0, y: 0});
-scene.add(object.getObject());
+objects.push(object);
+
+
+// Render objects
+for (const obj of objects)
+  scene.add(obj.getObject());
 
 const render = () => {
   requestAnimationFrame(render);
+  ++time;
 
+  // Remove and delete if time > object's local time
+  for (const obj of objects) {
+    if (time > obj.time + 100) {
+      scene.remove(obj.getObject());
+      obj.delete();
+    }
+  }
+
+  console.log(time);
   renderer.render(scene, camera);
 };
 
