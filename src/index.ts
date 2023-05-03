@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-let time = 0; 
+const timeStart = Date.now(); 
 
 class HitObject {
   geometry: THREE.CircleGeometry;
@@ -49,28 +49,27 @@ const objects: HitObject[] = [];
 
 for (let i = 0; i < 10; i++) {
   // Create objects
-  const object = new HitObject(i*20, {x: genRandNum(-2, 2), y: genRandNum(-2, 2)});
+  const object = new HitObject((i*200)+1000, {x: genRandNum(-2, 2), y: genRandNum(-2, 2)});
   objects.push(object);
 }
 
 
 const render = () => {
   requestAnimationFrame(render);
-  ++time;
+  const timeElapsed = Date.now() -timeStart;
 
   for (const obj of objects) {
-    if (time > obj.time - 10) {
+    if (timeElapsed > obj.time - 1000) {
       scene.add(obj.getObject());
     }
 
     // Remove and delete if time > object's local time
-    if (time > obj.time + 100) {
+    if (timeElapsed > obj.time + 1000) {
       scene.remove(obj.getObject());
       obj.delete();
     }
   }
-
-  console.log(time);
+  
   renderer.render(scene, camera);
 };
 
